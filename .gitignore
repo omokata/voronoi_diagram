@@ -1,2 +1,5 @@
 # Ignore executable
 voronoi
+
+# Ignore output file
+output.ppm
