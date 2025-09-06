@@ -1,5 +1,8 @@
+#include <assert.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 
 #define IMAGE_WIDTH 400
 #define IMAGE_HEIGHT 400
@@ -20,7 +23,9 @@ void fill_image(int img_height, int img_width, Color32 image[img_height][img_wid
 FILE* save_image_as_ppm(int img_width, int img_height, Color32 image[img_height][img_width], char *filename)
 {
 	FILE *img_file = fopen(filename, "wb");
-
+	if (img_file == NULL) {
+		fprintf(stderr, "ERROR: Could not open file named %s: %s\n", filename, strerror(errno));
+	}
 	fprintf(img_file, "P6\n%d %d 255\n", img_width, img_height);
 	for (int i = 0; i < img_height; ++i) {
 		for (int j = 0; j < img_width; ++j) {
@@ -32,6 +37,7 @@ FILE* save_image_as_ppm(int img_width, int img_height, Color32 image[img_height]
 				(pixel&0xFF0000)>>8*2,
 			};
 			fwrite(bytes, sizeof(bytes), 1, img_file);
+			assert(!ferror(img_file));
 		}
 	}
 	return img_file;
