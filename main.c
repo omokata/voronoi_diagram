@@ -7,7 +7,10 @@
 #define IMAGE_WIDTH 400
 #define IMAGE_HEIGHT 400
 
+// 0xAABBGGRR
 #define COLOR_RED 0xFF0000FF
+#define COLOR_GREEN 0xFF00FF00
+#define COLOR_BLUE 0xFFFF0000
 
 typedef uint32_t Color32;
 
@@ -47,7 +50,7 @@ int main(void)
 {
 	char *output_file = "output.ppm";
 	Color32 image[IMAGE_HEIGHT][IMAGE_WIDTH];
-	fill_image(IMAGE_HEIGHT, IMAGE_WIDTH, image, COLOR_RED);
+	fill_image(IMAGE_HEIGHT, IMAGE_WIDTH, image, COLOR_BLUE);
 	FILE *img_file = save_image_as_ppm(IMAGE_WIDTH, IMAGE_HEIGHT, image, output_file);
 	fclose(img_file);
 	return 0;
