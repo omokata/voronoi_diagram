@@ -6,7 +6,18 @@
 
 #define COLOR_RED 0xFF0000FF
 
-FILE* save_image_as_ppm(int img_width, int img_height, uint32_t image[img_height][img_width], char *filename)
+typedef uint32_t Color32;
+
+void fill_image(int img_height, int img_width, Color32 image[img_height][img_width], Color32 color)
+{
+	for (int i = 0; i < IMAGE_HEIGHT; ++i) {
+		for (int j = 0; j < IMAGE_WIDTH; ++j) {
+			image[i][j] = color;
+		}
+	}
+}
+
+FILE* save_image_as_ppm(int img_width, int img_height, Color32 image[img_height][img_width], char *filename)
 {
 	FILE *img_file = fopen(filename, "wb");
 
@@ -14,7 +25,7 @@ FILE* save_image_as_ppm(int img_width, int img_height, uint32_t image[img_height
 	for (int i = 0; i < img_height; ++i) {
 		for (int j = 0; j < img_width; ++j) {
 			// 0xAABBGGRR
-			uint32_t pixel = image[i][j];
+			Color32 pixel = image[i][j];
 			uint8_t bytes[3] = {
 				(pixel&0x0000FF)>>8*0,
 				(pixel&0x00FF00)>>8*1,
@@ -29,13 +40,8 @@ FILE* save_image_as_ppm(int img_width, int img_height, uint32_t image[img_height
 int main(void)
 {
 	char *output_file = "output.ppm";
-	uint32_t image[IMAGE_HEIGHT][IMAGE_WIDTH];
-	for (int i = 0; i < IMAGE_HEIGHT; ++i) {
-		for (int j = 0; j < IMAGE_WIDTH; ++j) {
-			uint32_t color = COLOR_RED;
-			image[i][j] = color;
-		}
-	}
+	Color32 image[IMAGE_HEIGHT][IMAGE_WIDTH];
+	fill_image(IMAGE_HEIGHT, IMAGE_WIDTH, image, COLOR_RED);
 	FILE *img_file = save_image_as_ppm(IMAGE_WIDTH, IMAGE_HEIGHT, image, output_file);
 	fclose(img_file);
 	return 0;
