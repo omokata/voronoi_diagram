@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define IMAGE_WIDTH 800
 #define IMAGE_HEIGHT 600
@@ -13,6 +15,10 @@
 #define COLOR_GREEN 0xFF00FF00
 #define COLOR_BLUE  0xFFFF0000
 #define COLOR_WHITE 0xFFFFFFFF
+
+#define SEEDS_COUNT 10
+#define SEEDS_RADIUS 5
+#define SEEDS_COLOR COLOR_WHITE
 
 typedef uint32_t Color32;
 
@@ -76,12 +82,25 @@ void plot_point(int img_height, int img_width, Color32 image[img_height][img_wid
 	}
 }
 
+void generate_random_seeds(int seed_count, point_t random_seeds[seed_count])
+{
+	for (int i = 0; i < seed_count; ++i) {
+		random_seeds[i].x = rand() % IMAGE_WIDTH;
+		random_seeds[i].y = rand() % IMAGE_HEIGHT;
+	}
+}
+
 int main(void)
 {
+	// srand(time(NULL));
 	char *output_file = "output.ppm";
-	Color32 image[IMAGE_HEIGHT][IMAGE_WIDTH];
-	fill_image(IMAGE_HEIGHT, IMAGE_WIDTH, image, COLOR_WHITE);
-	plot_point(IMAGE_HEIGHT, IMAGE_WIDTH, image, (point_t){10, 10}, 5, COLOR_BLACK);
+	Color32 image[IMAGE_HEIGHT][IMAGE_WIDTH] = {0};
+	point_t random_seeds[SEEDS_COUNT] = {0};
+	generate_random_seeds(SEEDS_COUNT, random_seeds);
+	fill_image(IMAGE_HEIGHT, IMAGE_WIDTH, image, COLOR_BLACK);
+	for (int seed = 0; seed < SEEDS_COUNT; ++seed) {
+		plot_point(IMAGE_HEIGHT, IMAGE_WIDTH, image, random_seeds[seed], SEEDS_RADIUS, SEEDS_COLOR);
+	}
 	save_image_as_ppm(IMAGE_WIDTH, IMAGE_HEIGHT, image, output_file);
 	return 0;
 }
