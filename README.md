@@ -1,4 +1,13 @@
 # Voronoi Diagram Generator
 
-> [!WARNING]
-> This Project is under construction.
+Program that generates a voronoi diagram
+
+## Build
+**Requirements**
+
+- gcc
+- make
+
+```
+make && ./voronoi
+```
