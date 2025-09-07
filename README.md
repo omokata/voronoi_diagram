@@ -2,7 +2,7 @@
 
 Program that generates a voronoi diagram
 
-https://github.com/user-attachments/assets/f5ce5b5d-afc2-4a86-a59f-eff86a4c4dae
+<img width="800" height="606" alt="screenshot_2025-09-07-154029" src="https://github.com/user-attachments/assets/507d87a6-bea1-4e9f-9aea-612b0fecd00d" />
 
 ## Build
 **Requirements**
